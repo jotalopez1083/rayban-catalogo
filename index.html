@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Catálogo – Jota Importados</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brown:#4A2C17;--brown2:#6B3F22;--brown3:#8B5430;
+  --terra:#C4622D;--terra2:#E07A47;
+  --gold:#D4A843;--gold2:#F0C96A;
+  --cream:#FDF7F0;--cream2:#F5EAD8;--sand:#EDD9BC;--sand2:#C9A87A;
+  --white:#FFFFFF;--txt:#2E1A0E;--txt3:#A07850;
+  --ok:#2E7D52;--ok-bg:#E6F5ED;--no:#B03A2E;--no-bg:#FDECEA;
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(--txt)}
+header{background:var(--brown);position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.35)}
+.hdr-inner{max-width:1200px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:16px}
+.logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-badge{
+  width:62px;height:62px;border-radius:14px 4px 14px 14px;flex-shrink:0;
+  background:linear-gradient(140deg,#D97240 0%,#B84E20 55%,#8B3515 100%);
+  box-shadow:0 0 0 2px rgba(212,168,67,.45),0 6px 16px rgba(0,0,0,.3);
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden
+}
+.logo-badge::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.22) 0%,transparent 55%);border-radius:inherit}
+.logo-badge::after{content:'✈';position:absolute;top:5px;right:7px;font-size:12px;opacity:.75;transform:rotate(-30deg);color:#fff;z-index:2}
+.logo-j{font-size:38px;font-weight:900;color:#fff;font-family:Georgia,serif;text-shadow:0 2px 8px rgba(0,0,0,.4);z-index:1;line-height:1}
+.logo-divider{width:2.5px;height:44px;background:linear-gradient(to bottom,transparent,var(--terra),transparent)}
+.logo-text{display:flex;flex-direction:column;gap:1px}
+.logo-name{font-size:22px;font-weight:900;color:#fff;font-family:Georgia,serif;letter-spacing:1.5px;line-height:1}
+.logo-sub{font-size:8.5px;color:var(--gold2);letter-spacing:5.5px;font-weight:600;text-transform:uppercase;margin-top:3px}
+.logo-tag{font-size:8px;color:var(--sand2);font-style:italic;letter-spacing:.5px;margin-top:2px}
+.hdr-sep{width:1px;height:50px;background:var(--brown3);margin:0 6px}
+.wa-link{display:flex;align-items:center;gap:10px;text-decoration:none;margin-left:auto;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);padding:7px 15px;border-radius:12px;transition:background .2s;flex-shrink:0}
+.wa-link:hover{background:rgba(255,255,255,.13)}
+.wa-ico{width:40px;height:40px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.2);flex-shrink:0}
+.wa-info strong{color:#fff;font-size:15px;display:block;letter-spacing:.3px}
+.wa-info small{color:var(--gold2);font-size:9px;letter-spacing:.5px}
+.accent{height:4px;background:linear-gradient(90deg,var(--terra),var(--gold),var(--terra2),var(--gold2),var(--terra))}
+.filters{background:var(--brown2);border-bottom:2px solid var(--brown3);position:sticky;top:90px;z-index:100}
+.fi{max-width:1200px;margin:0 auto;padding:9px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.f-lbl{font-size:9.5px;font-weight:700;color:var(--gold2);letter-spacing:2.5px;text-transform:uppercase;white-space:nowrap}
+.fbtn{padding:5px 14px;border-radius:20px;border:1.5px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.7);font-size:11.5px;cursor:pointer;transition:all .15s;font-weight:500;white-space:nowrap}
+.fbtn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35)}
+.fbtn.active{background:var(--terra);color:#fff;border-color:var(--terra2);box-shadow:0 2px 10px rgba(196,98,45,.45)}
+.f-sep{width:1px;height:22px;background:rgba(255,255,255,.15)}
+.stock-btn{display:flex;align-items:center;gap:7px;margin-left:auto;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.15);padding:5px 13px;border-radius:20px;cursor:pointer;color:rgba(255,255,255,.7);font-size:11.5px;font-weight:500;transition:all .15s}
+.stock-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.stock-btn.active{background:var(--ok);border-color:#3a9c63;color:#fff}
+.tdot{width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .15s;flex-shrink:0}
+.stock-btn.active .tdot{background:#fff}
+#countLbl{font-size:10.5px;color:var(--sand2);white-space:nowrap}
+main{max-width:1200px;margin:0 auto;padding:28px 20px 56px}
+.section{margin-bottom:44px}
+.section[data-hidden]{display:none}
+.section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.s-icon{width:36px;height:36px;background:var(--terra);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 3px 8px rgba(196,98,45,.35)}
+.section-hdr h2{font-size:17px;font-weight:700;color:var(--brown);font-family:Georgia,serif}
+.s-cnt{font-size:10.5px;color:var(--txt3);background:var(--cream2);padding:2px 9px;border-radius:10px;border:1px solid var(--sand)}
+.s-line{flex:1;height:1.5px;background:linear-gradient(90deg,var(--sand),transparent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px}
+.card{background:var(--white);border-radius:14px;border:1px solid var(--sand);overflow:hidden;box-shadow:0 2px 10px rgba(74,44,23,.07);transition:transform .2s,box-shadow .2s;position:relative;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(74,44,23,.16)}
+.card[data-hidden]{display:none}
+.card-img-wrap{width:100%;height:152px;background:var(--cream2);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.card-img-wrap img{width:100%;height:100%;object-fit:contain;padding:8px;transition:transform .3s}
+.card:hover .card-img-wrap img{transform:scale(1.07)}
+.img-fb{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:46px;background:var(--cream2)}
+.img-fb.show{display:flex}
+.badge{position:absolute;top:9px;left:9px;font-size:8.5px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.4px;text-transform:uppercase;z-index:2}
+.badge.ok{background:var(--ok-bg);color:var(--ok)}
+.badge.no{background:var(--no-bg);color:var(--no)}
+.card-body{padding:9px 11px 12px;border-top:1px solid var(--cream2);flex:1;display:flex;flex-direction:column;gap:3px}
+.card-name{font-size:11.5px;font-weight:700;color:var(--txt);line-height:1.35;text-align:center}
+.card-code{font-size:10px;color:var(--txt3);text-align:center;background:var(--cream2);border-radius:6px;padding:2px 5px;margin-top:3px}
+.card-img-wrap.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--cream2) 25%,var(--sand) 50%,var(--cream2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.empty{display:none;text-align:center;padding:60px 20px;color:var(--txt3);font-size:14px}
+.empty.show{display:block}
+footer{background:var(--brown);padding:16px 24px;text-align:center;color:var(--sand2);font-size:11px}
+footer b{color:var(--gold2)}
+@media(max-width:600px){
+  .hdr-inner{padding:10px 14px;gap:10px}
+  .logo-badge{width:50px;height:50px}.logo-j{font-size:28px}.logo-name{font-size:17px}
+  .fi{padding:8px 12px}main{padding:16px 12px 40px}
+  .wa-info{display:none}
+}
+@media print{header{position:static}.filters{display:none}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-inner">
+    <a class="logo-wrap" href="#">
+      <div class="logo-badge"><span class="logo-j">J</span></div>
+      <div class="logo-divider"></div>
+      <div class="logo-text">
+        <span class="logo-name">JOTA</span>
+        <span class="logo-sub">Importados</span>
+        <span class="logo-tag">Gafas &amp; Accesorios</span>
+      </div>
+    </a>
+    <div class="hdr-sep"></div>
+    <a class="wa-link" href="https://wa.me/5491162915656" target="_blank">
+      <div class="wa-ico">💬</div>
+      <div class="wa-info">
+        <strong>11 6291-5656</strong>
+        <small>Contactanos por WhatsApp</small>
+      </div>
+    </a>
+  </div>
+  <div class="accent"></div>
+</header>
+<div class="filters">
+  <div class="fi">
+    <span class="f-lbl">Línea</span>
+    <button class="fbtn active" data-line="all" onclick="filterLine(this)">Todas</button>
+    <button class="fbtn" data-line="Aviador" onclick="filterLine(this)">Aviador</button><button class="fbtn" data-line="Clubmaster" onclick="filterLine(this)">Clubmaster</button><button class="fbtn" data-line="Erika" onclick="filterLine(this)">Erika</button><button class="fbtn" data-line="Justin" onclick="filterLine(this)">Justin</button><button class="fbtn" data-line="Round" onclick="filterLine(this)">Round</button><button class="fbtn" data-line="Wayfarer" onclick="filterLine(this)">Wayfarer</button>
+    <div class="f-sep"></div>
+    <button class="stock-btn" id="stockBtn" onclick="toggleStock(this)">
+      <div class="tdot"></div>Solo en stock
+    </button>
+    <span id="countLbl"></span>
+  </div>
+</div>
+<main>
+
+  <section class="section" data-linea="Aviador">
+    <div class="section-hdr">
+      <div class="s-icon">✈️</div>
+      <h2>Línea Aviador</h2>
+      <span class="s-cnt" id="cnt-Aviador">12 modelos</span>
+      <div class="s-line"></div>
+    </div>
+    <div class="grid">
+      <div class="card" data-linea="Aviador" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SS0BaPEowvB9aagEHE9lyfnodw734zXaflGcamd4MONhwURrIdgKIfBL4es1L5WD_LeyDzt2RvAxWBglzu3WbjESXAJbbkkmpPbpNqqRA4-9UhpU6cVhufTZQSjsY5YsZe-NPqvPvqlgTZsHDCjflSkvAD-KbrumL2MiNQhGWz4SsJWfMyNJT5-Ib8vNxDrJgDN05sZ2Ihkth-HesXh9FRW_fnMNJhcojgc99E%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Clasico Dorado/Azul Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Clasico Dorado/Azul Degrade</div>
+          <div class="card-code">3025 001/3F</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSS3BwlANoqoBS2pMlwCbXjHhNuH3lWLGqjl45aKdfgdo2RIE-UnaAKytD0b8f1Vn_rauArdigt-oih14B9j9ywjD_tERatvmi3jvKDdV4W5ikdEgBVcl4Ms2n84_ED1hUB3ME8iCBPsWh3K3UTUrd2xJxNiN8nVQDtlemNcBKtZe89gOR6sSvSogWNlcbd-jRi_OAylWMErMaBkvF4UfR6HwlN3Ys7oTvj%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Clasico Dorado/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Clasico Dorado/Marron</div>
+          <div class="card-code">3025 001/33</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQEsmXEXaQsEL_rHGU0wz9ae12vwYxJg3lLc_Uy2WE3R_zs9KqE_wf1GxXMYkCslo4Un-YV73iztuCIKoun2GXvWFpexDihZAUXGLKxphqm_Q0M_2xm74UVQukfDH8oMBY2n3Nu80L4ljfDKgZQOiW57f2sTuVRiROKYbukHcsgyGuRace_uFsb8V41_n0kFlSV4XvxeCwPRZLGU2YFP8cWv5Ay49B5JU3_%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Clasico Dorado/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Clasico Dorado/Verde</div>
+          <div class="card-code">3025 L0205</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0ST-kKcQX4VE33BVFPLYKCxds6MDWqWXuUy5_-wrs3tLMsbYkGLYagCq9xqbB8gu6spwvBnSQy4HXFEsYzdXNF2n-27L-t_qb_AmbtU8oNtgyYSZa6-K-s9oZp1vFthUwpCI1JXy4MFTZXheXP_EBXQuJ5cEhttvTU6fvt3bavKFe4_q3H7h0J3IEfcTDUC9XKsOfDNUIQqS8E-dKdAVwxDe-bThoBSMt_Gw%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Clasico Negro/Azul Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Clasico Negro/Azul Degrade</div>
+          <div class="card-code">3025 002/3F</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STX7SsHIvw5AZwxp5hW7cQXGaDx1pFBJ2umtSm3pjflYNY7OvETbndQaL46UeOQVKfJm3sm9mZ_HZLN5CzqbgVHhlAXWpfmxQQHfsinOOhsblkec5xHS4v0bQrmpQu9g-yK3DIolZmMnjESLWoVY9jJJ35R1II0TBFyixZEK9wKXOf4lvO8w4wTAbTTXZBaPNufzHrAE%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Clasico Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Clasico Negro/Verde</div>
+          <div class="card-code">3025 L823</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQ3r1Hcx9Z09Gldo4YGlGUGai5B7BEJiN8hvLQ9Zf6xyY4viKZWE2g50yImpO0v07Qa02e9oW8tlFXeZbzha0vIAOrA96XOffY-ErHPq5hqqtK-GSrQDEO0iShxVMkkLBOVjynxum7mLUoGllzzm4e1A1IDn54S1c9RYWADx5A_Ab0KLB2IeJ6OZG5qv--ej9_jiSSi-Hr1LqvPy9FoKHTrU5uc6-vA6u6g%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Polarizado Dorado/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Polarizado Dorado/Marron</div>
+          <div class="card-code">3025 001/57</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRZwidSSF1NoDRX4JNUpjC5OFpjEAII-80gp49mxyMbmnx0WFNebLmUgS1pHUpDavHq332T1OxSIOCzDorcBrsistpUQE7d0dqLV6RBs1Y_casi6IAPT6OBhKGbrdzdofIwc-47jckKNZgcc3JH4uSC_N9VtEhwwruPPS12ll2WANXAJDJ-M_Z5unX0fSk1t5E3iwLMYnEAzNXi2xWYAWdsY_YS7HZrQmZ4MNc%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Polarizado Dorado/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Polarizado Dorado/Verde</div>
+          <div class="card-code">3025 001/58</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRQ7zBI6D_fymdf22Iw-bf6KrF3e_h6VNlNp9lEK6yKp2Me1VkXEzH1y0_0gb_iPInEmkCl4cGpZiQRQTkH2J99UgRKznzESZv-jG61oMXzkwe_QPl33OM1gRWf9lm-dU_q6P6NEdOlmKRDyJl4l6clo_lyEVOM31uSzQJpstvk1ixDaJmBLcj_RQwQWsleB6w2H8AsAznD0tqSB_qOkaHOYoNXHLbhTrZwcLBR-6ylkXHg%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Polarizado Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Polarizado Negro/Verde</div>
+          <div class="card-code">3025 002/58</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRv7zXak_gCoA4EGlVf3k3T9Y6UnKlr2ErUaAg8xjpBzwPn8AQh8nBSIHdU8O8oBWTEVGibLFdkhZXxkVv_Utq5g0hBoMhRiErSt_38Xl0E97FpyryDVZnSU_zFlYttcEERIjhJTmYfbvpLXJueK0xrV--8B9tV1X90KNtK-6wnA1V7WhpZ202Iga3MryRsjoqAoT-r4WrC4-9iamJGrXb_o_U50FuIN8MghyM%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Envolventes Dorado/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Envolventes Dorado/Marron</div>
+          <div class="card-code">3030 001/33</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STIeprZjHKl0VrHR12fUFVeysHTU1eL1USnLlOBvJ907084ku3xCy2VlylEgLAADiL7MiyawiEl5gRVdIk4uM05lbseJnS9zoPpgKm_LARXBbS6BDrADxRe7ja74IIc_-jkyNPG4Vz3bMe5uAkzHJBgfrocJ1WgJkmnlHngMOtiIupj2UihDRWA9szLqwt93iH4GN5ac1sYDTz9aMJB1ebSs27rqOtxgPHaZVM%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Envolventes Dorado/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Envolventes Dorado/Verde</div>
+          <div class="card-code">3030 L0216</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSBSOYHwJ41Hoo2x232Fvy1d4GslxZv0c-q8IGdV88FH_HCuiu2doxBhFQWMpwmRV2400NUQM9KBhNyM1HyncC2OY9C_zE1W38cS30YNqfYL9kYwAUDSKzAHjpBvNx162oRpLAY0t2st8wnGZjWWxKWN1AEdyDDx5jQT4WN7aVBgl7NpSX3ln-ln8BTN0kFPD4aDs0P0_mbMe8T1ujDp9zbAwLNsNBMlGQFUrwhU%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Folding Dorado/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Folding Dorado/Marron</div>
+          <div class="card-code">3479 001/51</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Aviador" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRLfBeX-P1STzglaCvIoklpC-xuDnjBV_4QyguhiV0B9jXICj1oSnDiryTRzV0Wc6Aj-BPj_EioyFwY-ZWeA-hbp-bnOCXVV8w240woOC2_BVKZsespbS9h9-GOwVkJvfJcI8-ZNaqaYKCS9rK4q9Vtb8G_HwxM_Axhn-aRqoRAEFT44trjajTKCbcBtsI8Wyg9dlt0FZoaeX7zkQ9p07DInSq2FX34QpITQ5k%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Aviador Folding Dorado/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Aviador Folding Dorado/Verde</div>
+          <div class="card-code">3479 001</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" data-linea="Clubmaster">
+    <div class="section-hdr">
+      <div class="s-icon">👓</div>
+      <h2>Línea Clubmaster</h2>
+      <span class="s-cnt" id="cnt-Clubmaster">10 modelos</span>
+      <div class="s-line"></div>
+    </div>
+    <div class="grid">
+      <div class="card" data-linea="Clubmaster" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STxfXzRtTj7nciAdh2DwKCI26ulO8HaUgyaq62Rl-aPlQGxV-yCUPPbDwZPe3rP3_w_sCbvHMu7HF3nlSyVeMGne0ahxY5MBdc2YOLx32V78sKWk06xmsezfde1Gx2liQu-oQqhBsod8QahkhlqpY2GIGgrV1JxHvntL_nQITbChe8t3YrVgBIuM7ikN2qRdGp2o_b7KRAsclDbmku5laKAQXzo3ZxyeepI%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Club Master Carey Dorado/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Club Master Carey Dorado/Marron</div>
+          <div class="card-code">3016 902/51</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSNjK8mwtCVqkeBJ1bQEwC9A7ElmP1s46mgbKgbUCGMw2uz63nJqJdL9zZ8KnZWbewU4UujbBVVuWFjIGjxwqvQsj_2tl_UnAjWidUD_CJufBD-tupieFMJRxDcjZr1iuCLhVX8yzs6DQ64_nUJBavJ-wHzm_hgcw4-USG_MXmT_YhLzTCKGur_Lj4soEwwQL7maHPuXn8WJBEV2BPHvqEyIw5060yY3qMfaIo%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Club Master Dorado/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Club Master Dorado/Verde</div>
+          <div class="card-code">3016 W0365A</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SS_7x1JhGoP3mrTTnX9wO1ZzfxdyKTbDGJyTqDEo2Rzz9fhS1VNsXj-RNhzOo5ea2HUjwCtLcMxi-yxvdp-NSj2iwBAv749hk6qcnjRkYndxqBxHWE_3vy11RTghPl-k-r0vmch0hwkoqGaLkk9uOexrpjzoLvJuPOnKhI51PmYQyjJs62oVKWRRdzJyIUNCMsysSu4kQNp3XWYteI5ptw3fpSPlCIcJrje%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Club Master Negro Plateado/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Club Master Negro Plateado/Verde</div>
+          <div class="card-code">3016 901</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRkL03p1covNHtoUnvo3NgXgCXvZdsTuxsMYAlQNkWtw8r48cw-ZRikR7DqFvuMShco8Q1h6haRwvs4owWLvc4AuearKIeeOBmEs8aUAbQdoeKkjx1EVyOyFcVGiV5wM4KRfZ6V9_0EoR5MyaIoN9Lu3NI_e5pfFEoBihSagHumAul8AP7o5rI2ytgwJn4RY0mQDn6adYzLguboapHB4o8ZSZJibRoAyj_iOTI%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Club Master Blaze Dorado/Azul Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Club Master Blaze Dorado/Azul Degrade</div>
+          <div class="card-code">3576 043/x0</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRWYrXtP2Pj8fWbfxL2mAvtXUf_6fJFuKGFu5GZY_HQBKP2oY6UInWTqV6s2LDV08e1YWhgSFYbgmhkX-c62XsUOlUEA9M2S6nnziGxHQjsTBk9hGZQWsIM_jYgyy024Cl3KGPVNs6JgsgXjkQMAV1kOC6HlifZ18Awl3Vl2s41JPRXtg797t6sqCywFCp6r93Rhm-N7MsSqzA69thAJ3PPSAjE2lL17R5B-1M%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Club Master Blaze Negro/Gris Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Club Master Blaze Negro/Gris Degrade</div>
+          <div class="card-code">3576 153/11</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSYjPE5zFeNeEDEK0B4_eDlNrjKg1nr6eSxJcaVien46l67NAeubqujouroE_YboYcwPwvkUaVRkAP-LHZ94aHjkx6fdQOqlOQCftNQPcYpyYB5yrpvW1Je0vuz9jabVMyqa2pjH06T3iCTNAyK9RukZPX7m9LrRXWIFoVPHXYtxaPex6MvTWWJ2TULO-2t4HufMKWCbMWffxBgfKWcVJp_uuAeXlcVcTFKixc%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Club Master Blaze Dorado/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Club Master Blaze Dorado/Verde</div>
+          <div class="card-code">3576 043/71</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STEfOyD3w1OSK9g0prwRfikAEoeuTbAGELvv7eNpyJ6K8a0lcR_NlMzLynWCfgIkb3s1UJ_TCYVK8d_FRsUeDlei9uFLeli-tWyRmXgEqtdPDfK4_8ZjgaiGcC5uQQ2yi3NiFEFZ8Dy9sEfKvum7oS_RFJqlyjY8JV9C-tPFJYcCKXrtJAk8hl1DAeroE0Mt5gaQYPqobdZrz8GCeE_ZiR7RdFl965w2o2GcQQ%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Club Master Blaze Rosa/Dorado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Club Master Blaze Rosa/Dorado</div>
+          <div class="card-code">3576 9039/V0</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STvNt8FhLB3vqpz7J8ujUnQqtiMXqLdCuAAp3rc3JWE8MnS_DEJha2-MGFkrssy60o_wP7JeX5EjjKBHVpOmmXDpcXzbFfwWJPWui-gYHrkwz9W69DKqpPHZaldgFWBo5OtcibL-PouwHthvZxbPu2taKtz9XRbUIwLbyadtTk64ILfDmIhE_vgEOhKlgvNaq0ZpTrR5TSDgxIJ_zqv-73UIZIrAmcTMae0%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Club Master Blaze Rosa/Espejado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Club Master Blaze Rosa/Espejado</div>
+          <div class="card-code">3576 043/E4</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSVDe6BGJvcC5vuKsLq3F9lba101D8LlNToQEFR8QHW6Zp8SkELWWSqU7YMZidx-7SCgLDqFXwUlrkrDAQobnLZHbnEaNf6UwfR6PSAmp3ptvmu7jAS06MrlYcF-eXjFoL1LLOJjV4vI_B8jnw_JPEorbY0yZFfLEBwSMQjDiQYCZTIw0Wonm6qE-zzzjXq83y8gpty8rRH8-3MEkw1TsUJPQCYhIY0zXSqFCs%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Mega Club Master Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Mega Club Master Negro/Verde</div>
+          <div class="card-code">0316 901</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Clubmaster" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STnaOStekEK1EiajNPWBO_dBfSYcfOW_TlE0OTczMpEPaDnBzNj98SUYRijZ4_gRnOZ5U9ePNS1R52VZWF2iUEUV32XxTA5q7gy2EV8DI4oWW3tockIXFLU-G9U-syFqlPOgsG_C6mc0fZxGKjmXu3UzYzm2o94qGura1YxROm4kIHB7LP4tkW921e8_G3og8U6TC1Z33e_xUNR3XH4xe2Lu6AkwtZuqq5OZ0Y%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Mega Club Master Carey/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Mega Club Master Carey/Verde</div>
+          <div class="card-code">0316 902</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" data-linea="Erika">
+    <div class="section-hdr">
+      <div class="s-icon">💎</div>
+      <h2>Línea Erika</h2>
+      <span class="s-cnt" id="cnt-Erika">11 modelos</span>
+      <div class="s-line"></div>
+    </div>
+    <div class="grid">
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQvdY_IcctuUIuMSrCX8L0km1OaO-hX22daG_k4iNACGdv9-rCbCt-IiGOFOCQuxUJYSBdeYxih0w3loGJkypFeSSddP-HQzU_qPhp3RSHcn41UEX46RSsPpKNjPnafYwpxK2xzoRNvdDao4RQAGV19XRVPhPvRf1eH56-QO6UjIBXXl7gud4bUzjEWRQ5-jLUXOBU8KTLGrSFVo%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika Negro Gris Degrade/Polarizado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika Negro Gris Degrade/Polarizado</div>
+          <div class="card-code">4171 622/T3</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STsVs1mbQJpxW_08FYkXA1TM1JHCdzJQIWMTmVJuyjA4qs48A_3s9thOmciOUI-2W72CmMvEt7KuhIfieEWsiJ6sI-8t8IZms6NzJD8UvKhTg-fMt-l22u1LgMHkUY7HWZJrFgmbx8p91xUHMov6J5GcwkHLQyr1yJIgo_y4_dYgrmn0KcpytgDz4fu1FBbDdr1D_Zknn9fCGcajugFWi00ZBpTbo6pZxuV6As%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika Carey/Marron Degrade Polarizado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika Carey/Marron Degrade Polarizado</div>
+          <div class="card-code">4171 710/T5</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSToE5VcGYUfEcu_Wjh5a4H53Nvgx_nYRBc7Y8tAjmv2IPn7Ry9ujmQHBO7-A_W9G3KNCvHk1azy0hp_oCxr-qeZ86-3HGMx22allrYQgeJAfYtWNDMvrcEcRyiG7CUzTb3uRP_baKWHr1C7EBGgHGcPf1ua-PXWf0ba6lNBeJOAOttDNLuISwkOU24K26loYwv1dMBvzq-N5BYykNZQQK-Clset0yL0cWwJIU%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika Metal Negro/Rojo" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika Metal Negro/Rojo</div>
+          <div class="card-code">3539 002/Q4</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQt27yJ-X7Po-By2ppJox66-O61sQg1PvKrCVOF8aaTXvx0oU-2tVgACgBDA4jrpnThNiHVDZKRHAf7Be-WhqeXn1fIh1i5GZh9joEEhHy6k0R_8IH2wXNTDs2m9g29IJf5WB5JCEotKC2qx7lCGFOJL2IUdiWUHEKcckw4f4FAsDmcwhYWuWIdALlAk_c9wFdzlP-j_4WwD-leOlE51mxzJZ1omx_otljT%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika HighStreet Beige/Gris" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika HighStreet Beige/Gris</div>
+          <div class="card-code">4305 6166/13</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQnJb8do9vsBYWTyAb5iCBa7b1GKU-T3WowzhlK3iL3bN_ZydveJx-dzq4hwfm3njTt6vSrofOsC7vpbPmsicN30KcnIsbZglNPBr0Wbi7K6feCyXVZn-435BwI_FlmcCbtbGUoVRZ_C5wRJ9DLxr7oqmtxvJ4N2MXOEMP4f7v05EbqXlx38kwBxxH0mLQZH_57_I12AzO0yoGkv9u0ltxzX3kBv4BWbaNe%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika HighStreet Carey Claro/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika HighStreet Carey Claro/Marron</div>
+          <div class="card-code">4305 620/73</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STp1bS42p8vB82JbjTZ2fsXykuVVAkZZCg6NF9G32fWGB7fhSjnOVn2Yj3SlVcdAXt4FJlAYA7X5Cameg0A6bFERRrqGXQIpk3GoLL1iquwn8qY7L9UgwRtSxsWOZF1Use_rjsmxSOsP30dqD6g4t2-12MKC2OlD9UvSlij6jnzcA0RdPJ03uiLEj4xtahRgvBoPVKBdksGkmdoxQ_u9Q8BFPYNgBiO1AiMPmY%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika HighStreet Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika HighStreet Negro/Verde</div>
+          <div class="card-code">4305 601/71</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STp1bS42p8vB82JbjTZ2fsXykuVVAkZZCg6NF9G32fWGB7fhSjnOVn2Yj3SlVcdAXt4FJlAYA7X5Cameg0A6bFERRrqGXQIpk3GoLL1iquwn8qY7L9UgwRtSxsWOZF1Use_rjsmxSOsP30dqD6g4t2-12MKC2OlD9UvSlij6jnzcA0RdPJ03uiLEj4xtahRgvBoPVKBdksGkmdoxQ_u9Q8BFPYNgBiO1AiMPmY%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika Hexagonal Carey/Marron Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika Hexagonal Carey/Marron Degrade</div>
+          <div class="card-code">4306 710/51</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRIH0BadTutdxnlvGa5f9923PRWvbRSYvgXtUfcQ95U7X0UqJHVKcUULD7aZM-QAE2tb3F-K0obM4yB0TccPFD4s7ym66qfNMF3BErRyps0kRUZQCJtJ2JH5s5aAPOVEok_6kZxE_ev56-6TfU2Tqa79j3Caf2L2ZobMbZomvw2vQ_LacTJWCTeNd-dCR9qqyhjDvEpbwhCuT5q5IrASJhMlpphcKsb9t7aMQM%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika Hexagonal Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika Hexagonal Negro/Verde</div>
+          <div class="card-code">4306 601/71</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STSsmLlwzI1r87UGsyz7ArjVwkOM9aMFAq74lBPd9K80v6ijYsXISqhga8e14Zz_X6v68V5McMMBbSRZUnWtk_PzHS-1OtJYkiVVvnimob1oarz6TCTQ8HLXZDHBQ1t7ySPqZg1f77jasirHGu-8Q5cwo_f9siz08OF0D9KfxA3U8hGcQ6uWDLnX3Xf6i8jL47zop3bI1dsNxCnT-ryeWO83gMHt2BpaXCXR-k%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika Nude/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika Nude/Marron</div>
+          <div class="card-code">4171 6000/68</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSZ8ugSlhl6own21UMQA92VwnL3Rf6llWjFYxUzme-Ly3NcYfxIYcRb12tndRN7ASt-xW1lOj5-JCItehD4LvaNQxMs3CByz_2bKL6V8qANncKd04jDLJiPTUXQTCch14zYpGUqAcUCq1pubwo_wvwgeamycC7JlSg72nqqjdqmja6H0UrvsOEoGNifRP_gWnSUlt5FuxAH8454nxkR8bo9LcJI3Q0rZJqrzlI%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika Azul/Transparente" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika Azul/Transparente</div>
+          <div class="card-code">4171 6515/4L</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Erika" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STY7b61ADIDcas3SUZJn9adYu7Tz1coUrx5VeLy0zLuLvSVX2VzXC8sGsfI62YmgqDDTKo8mmYhZW6LL1pdW0w0bkwepP3IItW1GFiU__YcCJvVNguaqkaOJh90JXWVlcyFSLpTWV0dMHYV7DySddBmwboopvYa7sNleh3hqRHABebwh31K086JQoGxOBBi7RLitiJz1fdIA6CkyfCLz52QKrJtNSRnvSUYnTc%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Erika Marron Traslucido/Marron Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Erika Marron Traslucido/Marron Degrade</div>
+          <div class="card-code">4171 6590/13</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" data-linea="Justin">
+    <div class="section-hdr">
+      <div class="s-icon">🌟</div>
+      <h2>Línea Justin</h2>
+      <span class="s-cnt" id="cnt-Justin">6 modelos</span>
+      <div class="s-line"></div>
+    </div>
+    <div class="grid">
+      <div class="card" data-linea="Justin" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSRJ9ikSKaRCXL4gB0VDrPLwXGRzyVE9HJqdZrnnRtSDCefz74cy-ERQa2fkHOUDQqK_5_KBo6Mcj-hEZjCxTUTNQkIoC4tin_tuadcLD2d4mie5lzWd6Ffds58YxGeEtjsCZmfHjUCyHye7tIztz9JX8KfahBdKr2igWOjEa9z0TcEGVSQNR5Faiklp6AC8PAyliAuB2a9qhYSlUOaYjzfCH8p5f0WjMWwCNc%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Justin Carey/Marron Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Justin Carey/Marron Degrade</div>
+          <div class="card-code">4165 865/T5</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Justin" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRxXz29wyKg4Kv6SBZxN_Tw2siEz0yPDjNvCxwEH-p_YSC0nbL0a2Jx22Zjv84V1R6fgYyitBtsuwlbuwPvi99uETzR6wvF82EEZmiaObrW7U1yoPKwBcEimntueFORkRyH5BiuhBH9L-uvYlckhKjnAXBSyLcz90yh8Dh4J5F5aNmBiqKZFe7EmkV3Ke9gMr4E1indb-S-Tgfj2J00Fgs4QcVX1wyaheNIw2I%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Justin Carey/Gris Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Justin Carey/Gris Degrade</div>
+          <div class="card-code">4165 710/8G</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Justin" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRF03TnQP5BA-H1PDvjNBb0MKjkPwI-XDXuEQdhdybbOWfeT3OS0g5jwHBHFuMhG1Z2RbGvOjbdXvJrlUs6Qvx_vM9U_3A6nmnUx2u3JIPfxjA444i1LfShBo2fB35wOJhJa997nOy0lKfjJJGhoDoDRHLz3R3rSuOujl9bggO3QRLcplRGfvaYEYUtkM9Vh8lEo4wrGmzH-IFhly9b5Uhr2Pab5B2pJ_yAxFE%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Justin Carey/Marron Degrade II" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Justin Carey/Marron Degrade II</div>
+          <div class="card-code">4165 854/7Z</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Justin" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STjtU-q2BY_96gjZw0aT60_fufRakUojBeJcqeOiEwS_C5mRY3PBL2zIEb8cpzTtUZJAo4ysKSz2tcU1CRWwmJZ8gPY5LZnWmZiO639QfthKrdTuJofIEIA2sarZ3pTq4yW2ivHopsyionF0xD5d2g8BJPI6cbPSxNfkHw6pgci_8ahkX4FKwNo6-w95RBQdR2tCMHPDlhIG4OqK8Cmygk3xKorYc5J7j_DmTA%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Justin Negro Mate/Verde Polarizado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Justin Negro Mate/Verde Polarizado</div>
+          <div class="card-code">4165 601/71</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Justin" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQXf8u7xSvGROPWWQIqtr4KkHxSUH-coSbD8U83htbDp7VXmqiCWbClbFbqS8xYdYMK2T4IGfG0hsj-DGF64JGNZfx2pJjm9JM4xqf_aJKa1SDRTxLxjfn3yaJm8gibt0QfTbzOO9SA0xh3a9fUSHI3_YJxiJeaQSuRPJfy-eap5eo8yJku6rNCqPOCjIxVgI5tbO3jyFUSrEHMFYZiuH6Dkn4law_koPTC0og%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Justin Negro Mate/Gris Degrade Polarizado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Justin Negro Mate/Gris Degrade Polarizado</div>
+          <div class="card-code">4165 622/T3</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Justin" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQfvYpfdkmWFwHHdUvWSTANOoo_4t4_g23h_Cj7fNpIfQ-2tZA-v3vIcyR1lonJ1MlMJcoPntxDVvzFxeFaoFjYDDr4Ea48OAyaeRGXVujmR_utOI8bWMf_NjWoE8pOcjsJFZ_Me5rmM88onZYbeHMfOcuOapn2dZVVKPNn3eunflDCJEyM7422fR7DDQzBh0rhsCAwIRnItLcxkspPAHQqjZdZo86Wi9RfwTw%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Justin Negro Mate/Celeste Polarizado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Justin Negro Mate/Celeste Polarizado</div>
+          <div class="card-code">4165 622/2V</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" data-linea="Round">
+    <div class="section-hdr">
+      <div class="s-icon">⭕</div>
+      <h2>Línea Round</h2>
+      <span class="s-cnt" id="cnt-Round">14 modelos</span>
+      <div class="s-line"></div>
+    </div>
+    <div class="grid">
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQ42r50tfNOVmcktm7bxEx_ZoWDpmEvMar2JLfOJXC8rw__avvYqs9zq-V7w_eQ_srwR4Bq63y6mCwI8tbsNw9ggbMKzObhLK_SDznnzijRdi95_g0YgvZ06Pu-cikutnivElipbJVuo7snzUnHLr9rEzNcwBxISPlkRNQJXGFcmlpgUz5cyB6IDeCWfsSW6SDZwNMthMkS03_qEGOtZ2PbDIOEBEcSR4AiPHI%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Fleck Carey/Azul" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Fleck Carey/Azul</div>
+          <div class="card-code">2447 1158/R5</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSJ0D6ifeFN6Ib0QYNS-xOWOVKxNuGN6pxGt6EOIwGIEYmWAqUruatcwa313Yj9Q8AUUEADZhb-9TxCs3t5F45n1Fzoa48yLLZg9w65UivIm8cc2BtgLA9uxqUA8douUZi_24H-JaIKQoC5yXhelVugmAUOolGA-rsmp2pYFTCpqcgm6oPkRARGx7q9woEcfPyRhvUrroewL6nmSFHnJLtRXdmdjD7pexlfbAw%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Fleck Carey/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Fleck Carey/Marron</div>
+          <div class="card-code">2447 1160</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQH3vgaczi6-KJI-PCpz3JJ4yKZbVMBf6vZamZaI8Z33cMeiqw3Vz_8TzSUZ3COKHh-yvDMlpKkgG-ydAg3vVOlOAlook6o5O9H5lZ59AHuh56ZQOa04-su477dNVDVm9QwdyLUv3OO624-efDZm5IzRFfXH5ZhqKEGYKwgLULAns8u2lqOA1cgumhtDMnW6kf9kxhPizC2eZWqA85k6FJM4xvdLNtX05zrnWw%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Fleck Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Fleck Negro/Verde</div>
+          <div class="card-code">2447 901</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQ4UWPktMMA8uFsTzcglv2Cl0hXmp2fl_QXzRNPPtmxTzItcuLhDsKOgZYptpIyjG6s2a-Ja2Fswh7dgk0eU7r_bdx_COQqRLsPDlYG9DpfpOaA7cPEuzdkfLCAmUfi6bZUkY0vZIIrI8FL2dSLLSyeJhm-OEeZHVy7LulVQrVk6JOO6WMVkx8oZigIue49OjcmKJlZlEZVuq1p5SeEjvjJsVUkWzvZsHRdoTs%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Fleck Folding Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Fleck Folding Negro/Verde</div>
+          <div class="card-code">3517 002</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQAJscnKCCB_MnX5GSKfEXYMd0nNYis5hqutAXxTOU6JIQFsjatrrG5iz06vKdOZBA_izIh0rKLyuDdmqacFwyNXBl2haBZbjwqUaMyUrqkbtHXrm_CA2emsL4LQfbcDGyXmmiupK4w-siem82xfY28FLBJHFE-KGE_ns3UH2v-82NmsbxLVUUR1LzdpxINZNWHHxl0u5liG6boZCEXGz3GbH_R6jypVTEi%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Blaze Dorado/Azulado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Blaze Dorado/Azulado</div>
+          <div class="card-code">3574 001/71</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQz_-bSJkAZHoeb8VQHjUB4S1jXAyN0-iVUYe0B6-1-GdNiJyhg2puZX5dt01K76TZ-0ISBOgTC2YlB5LSxLoITz9bTy0eZHxhWjxCW2JvnIjVWhbpzBM2vW4xZvbp4Rbnt0L2sASJBm2W0kcHFuPStxo9AX1X0ClHbVPir2hwE_Nh6YP6wf606QxjHYZS5JhWCbTxgxF_QRE8SzREtdfBwIDdp3SNpLmu4_K8%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Blaze Negro/Gris Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Blaze Negro/Gris Degrade</div>
+          <div class="card-code">3574 153/11</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSy73UXuSyWOthmJMBCjNn54PFb7PXLNU3ntLl0LVX5OP008aMS4xtoHPAbpM3svmYPLexacPy8MhneDgKGxXwrOEtnAT_cFlp0Ub_2PZTyz4Ij5wJ8nK3ts_sJmfPOvKqB-3YAETE93YbymI0COcj9MWXRV2TcXQyo57lr6VjNEEOcoJQumWolZgJtTncPGpD1AayTujzJUkyLoTQM7icdUXtSHS0z4N35%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Blaze Dorado/Azul Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Blaze Dorado/Azul Degrade</div>
+          <div class="card-code">3574 001/XO</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STxidtVFz9mDjvvRqwnL_ci-5XULdjCEuIRs8ChI-mSpu_TN0mgTxe8WxME0XLd8fklcReURg8a7EpOQNnE2GECMup50Av52yMP7jm6SNH4Pi2fGEns3b-NmhrlKvTPelyqCTsHKj0Mq9zygdc6yGAv10%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Blaze Dorado/Marron Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Blaze Dorado/Marron Degrade</div>
+          <div class="card-code">3574 001/13</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SSxsq-NblnPBa9LezlOMnCt29d28M4sNttOGEO_L9XYlazgLOQvPiu4pUj2DAgUiM32OeBtmnz-aIbBNH7iOfe43QUfJZnLEKT9dUIOuVBu4s1l5j46ywLuNj0ulv5nF6fJq_FWexDRJ6yjj6uitTiVSY_gQB3iyoigbHMu5VKsTZ4QPOB_nUD7OMrEzFrPgclbItAFp6ntTq5UQC8dg_sIK5CM8JjciGeYBoY%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Blaze Dorado/Rosa Espejado" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Blaze Dorado/Rosa Espejado</div>
+          <div class="card-code">3574 001/E4</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRS04SdY-YlxQJngBHppj5rZs9l1lTsdImUGJa8DCCF0ScWYnRjXqmxzQW-sd9uooeSsWDHXvFHy41Wu-nYhOQHWhl7-mDlHOHk1L2gDJdDJenIHyPC-XOTPExY8drza15AtoqVvL74QD9KPDk1EnbDumWUpKWv79PZIViA3c64OV2romtUyG-XfgMaQnrwbMR8HKWa4AuXb23mN1eOOKbUv9fsiiES4IhX%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Metal Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Metal Negro/Verde</div>
+          <div class="card-code">3447 002/62</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRauBo0c634oXY2ZURS8ij5uvW3_qR8QrL7ooAjC2yGmR45SguCTJDmlDqjtlTFq3hvLmg9joqVwr0SINJ-iMUB9vKMW7pwFzlS4F01KfizA6ClRvz-5vMBC4d0-K8eT2OUUgTgfRbP3L3puiRFtb4dPLnqtinx_wmOc2buwthY1zvnOygVFys2tc_QUzAUJaoeN0YSZo2tdt4UifMHsZqjk3QFv65hXLkc%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Metal Dorado/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Metal Dorado/Verde</div>
+          <div class="card-code">3447 001</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRn-n14kjn1LvwJWyXHOZCKznoUP3w1i-AWOJcopWSq5iEud3alkfRSRQohg8hJ-WhvI1N5IOJXmXxx1o6wMAwYvtCmW5oK5DJ203Y8BNHo5Dle-ZTCCcjw0D8kubwGCQHTyUdw1Q1j1fhzu8Mdqc1thBhaUmSOK09EW9az539whpXy9d8_PW8yRM1_CrYDfkb3ARXetneZjdB0ORYltMOQF_sRKiDLLofhCVo%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Metal Dorado/Marron Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Metal Dorado/Marron Degrade</div>
+          <div class="card-code">3447 001/51</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STLujGDxMPVWNLoFz3QSFI2GsqprddOg8Oymz3dCK-6TNbdDpqGZJcgv32jabQ3zGAWyS7yOt3Z-U1PqZJtiPXoR1-9-5BZH3sYYTkZcscmH41kNta6DMKWiziEbwucHCYB7-LqDWvGW9jnge_EGuZdHwXNR7vbMOzQHwel3LSfO9vu-dJn5S51dsyMx7ER49xY2VQFCJLw3tXLkUJwFPfK-MK0jtWz-sPl%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Shape Negro/Gris" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Shape Negro/Gris</div>
+          <div class="card-code">3546 187/71</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Round" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQE1pE03BlzSOBa5kb04cHNVXRb-qCkjxrFdPUK58EODp-qQ21SY7AD6hSFsnQJcM7MvCGNTyDRo3VpEOCs0403gMp2NFWNBHxHmQ6KSR3v2aXPuIKvr0Fsk20zbcooBqolEOQChwdYGpUQzVcYic3JFu2c8QCGIpcf8K3SHLww_0PIq9mXAtjy_OMKoUsJM1ph8xgg5R6QCIspxB7m3chxbaV8lPML1xQz%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Round Shape Carey/Marron" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Round Shape Carey/Marron</div>
+          <div class="card-code">3546 9009/85</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" data-linea="Wayfarer">
+    <div class="section-hdr">
+      <div class="s-icon">🕶️</div>
+      <h2>Línea Wayfarer</h2>
+      <span class="s-cnt" id="cnt-Wayfarer">8 modelos</span>
+      <div class="s-line"></div>
+    </div>
+    <div class="grid">
+      <div class="card" data-linea="Wayfarer" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STI1dvSv4ssr2HKUgRb5uR-_tne4OCwZ1bOcjfQ5JGxErxKf9DH7mCAMA4iBOubexlXlA-bs0y2VAzBePoLeEEOA9VSSwbgR55p1Xmgilhn1efVIQWgDT26RO3HQOtIfaowYi8zrxB0Kuwitz62lGntySp4DA-56lNqaMeY1dmXVXSHfvwfbl6ia-qgMW1SlMK2KV-RbG9L-gy7Yx17C4loikWJ3FvkLJeHUlQ%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Wayfarer Blaze Blanco/Rosa" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Wayfarer Blaze Blanco/Rosa</div>
+          <div class="card-code">4440 6357/X0</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Wayfarer" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STsLnI0oAQQvjP-FoWZ7EgZ4SHgtAxE23i3QTUaOGlK0xo3vatX6tlu2eGrF3LER2xLJqcXxelmR_N5GOR268bb0CWmT9PtTg35AM9ybYL9kYwAUDSKzAHjpBvNx162oRpLAY0t2st8wnGZjWWxKWN1AEdyDDx5jQT4WN7aVBgl7NpSX3ln-ln8BTN0kFPD4aDs0P0_mbMe8T1ujDp9zbAwLNsNBMlGQFUrwhU%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Wayfarer Blaze Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Wayfarer Blaze Negro/Verde</div>
+          <div class="card-code">4440 601/31</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Wayfarer" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0STVCFcHiguNIf0EDOMnUtSvI5mLTQtLstIrzg5cqEZuxBy9xXV1ySimd9Bgcn-jjgplmEvOyOWmLG2AF2tF_ZNCEfbXLO8ks-jo593fye4uArfpZtYqgYP0xavSenle44rbFzOf61ZIzHbs0e54LC7JEHMn7R1Z-vU0PRKM6V_vfz_yaUj61Fy0wcmSmbq-8XwsN3z5EPaf7kaSM1TNFxJunRhr_oGBL8d4u9M%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Wayfarer Clasico Carey/Marron Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Wayfarer Clasico Carey/Marron Degrade</div>
+          <div class="card-code">2140 902/51</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Wayfarer" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRA9RVHdahoZb7KBXyQEAhnX8Lzt1qmfn8Ya9VxlKXnpDad_CUOP9gfWcCqkwCqVBg44jHu6GGrmF9qYujO1s3ojZyYt_nxYDm5gEJE56hUupa70tMXHHdMV5V6PrRNXbq_OS2BaU4ikPShmXCAq_mSMcIFxfBQpeYLu1KPHwy-2BYIrVU05qvfjI6iPYejCJScxsK_IMBK4xhHEZ3Xtrq3RCM2vtLtksVB%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Wayfarer Clasico Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Wayfarer Clasico Negro/Verde</div>
+          <div class="card-code">2140 901</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Wayfarer" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SThq8Y4Kh07PB-L2PgKQF9BdnrgLIjWbLME1TXEbSZyGO2fuUnwGr8zD5x76jPQCnIaRmCk5vYrB3KfqR99nNZ1V76r7jDJwdJCijnzscYlMx_KTeosN9oLED8-dToM-WvmwLKhtbznGH3C7HVtvmRvM7lUEYB6EgxKrIrOqFo5QPZehgWw0euSgtO7FRWFsXNQLShyTdeYv0kUQSOv3ULXZ7P4pyA%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Wayfarer Polarizado Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Wayfarer Polarizado Negro/Verde</div>
+          <div class="card-code">2140 901/58</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Wayfarer" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQeJmE4reZ7cy9KWz1_S5kqtcC7Kv8QmXLuDm7isnCnGAPcbdyWMxRMis90ERPX5Pffs-LzH47utnq-s0kbcTt-oQ5Aj9mj3cl623rZfCNz39LaP6Ur123opLXEbNiZ_Q8BYY7lNDrlttmpyVmFnHi-K5K2adANHGUyeHAB4SrsDSfZ_JMcAAEq7Ddr4t-3cmdC7XokPLrPa5sSdxGmwyjyNQrMfm80JxatNeU%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Mega Wayfarer Carey" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Mega Wayfarer Carey</div>
+          <div class="card-code">4840s 1402/51 48</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Wayfarer" data-stock="false">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SQboAd3m3ztVdRxGH5o_BNYAsOo59KsHK9ATbsCRONWlX2cqBc0G7CVD3pl50Jl1OLMZapDkUKV1y9dBlmcbBHpPiZS27ADT8U9FfFCprfl2PEBcGAUYw6flqMfdkp0QDyjceSUEyEHRhVMr24FvFP3jPA_BkNZ9yf-xALMsFsTY_Pc6xY7iDawoixeT0hi-ro9V08maCoJMCuu98OTD9eE6TUFRD7vZUhqvEY%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Mega Wayfarer Traslucido Azul/Degrade" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge no">Sin Stock</span>
+        <div class="card-body">
+          <div class="card-name">Mega Wayfarer Traslucido Azul/Degrade</div>
+          <div class="card-code">4840s 6675/32 48</div>
+        </div>
+      </div>
+      <div class="card" data-linea="Wayfarer" data-stock="true">
+        <div class="card-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAPaQ0SRPvdL9RYr54y3FlQzOaidonMYlAxCKGozby9mZ5oN0TiKk9lXtRuBlGn894tQ01jjEADAtzmIVKuXL76WURYH7ecghu-qggEVyNHNQPl33OM1gRWf9lm-dU_q6P6NEdOlmKRDyJl4l6clo_lyEVOM31uSzQJpstvk1ixDaJmBLcj_RQwQWsleB6w2H8AsAznD0tqSB_qOkaHOYoNXHLbhTrZwcLBR-6ylkXHg%3Dw800&w=400&h=300&fit=contain&bg=f5ead8" alt="Mega Wayfarer Negro/Verde" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.classList.add('show')">
+          <div class="img-fb">🕶️</div>
+        </div>
+        <span class="badge ok">En Stock</span>
+        <div class="card-body">
+          <div class="card-name">Mega Wayfarer Negro/Verde</div>
+          <div class="card-code">4840s 901/31 48</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="empty" id="empty">No se encontraron productos.</div>
+</main>
+<footer>
+  <b>JOTA IMPORTADOS</b> &nbsp;·&nbsp; WhatsApp: <b>11 6291-5656</b> &nbsp;·&nbsp; Catálogo de Gafas 2024
+</footer>
+<script>
+let curLine='all',onlyStock=false;
+document.querySelectorAll('.card-img-wrap').forEach(w=>{
+  w.classList.add('loading');
+  const i=w.querySelector('img');
+  if(i){
+    i.addEventListener('load',()=>w.classList.remove('loading'));
+    i.addEventListener('error',()=>w.classList.remove('loading'));
+  }
+});
+function filterLine(btn){
+  curLine=btn.dataset.line;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+function toggleStock(btn){
+  onlyStock=!onlyStock;
+  btn.classList.toggle('active',onlyStock);
+  applyFilters();
+}
+function applyFilters(){
+  let total=0;
+  document.querySelectorAll('.section').forEach(sec=>{
+    const ln=sec.dataset.linea;
+    const lineOk=curLine==='all'||curLine===ln;
+    let vis=0;
+    sec.querySelectorAll('.card').forEach(c=>{
+      const show=lineOk&&(!onlyStock||c.dataset.stock==='true');
+      show?delete c.dataset.hidden:c.dataset.hidden='';
+      if(show)vis++;
+    });
+    vis===0?sec.dataset.hidden='':delete sec.dataset.hidden;
+    const cnt=document.getElementById('cnt-'+ln);
+    if(cnt)cnt.textContent=vis+' modelos';
+    total+=vis;
+  });
+  document.getElementById('empty').classList.toggle('show',total===0);
+  document.getElementById('countLbl').textContent=total+' productos';
+}
+applyFilters();
+</script>
+</body>
+</html>
